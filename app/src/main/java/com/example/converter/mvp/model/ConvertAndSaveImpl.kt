@@ -23,6 +23,7 @@ class ConvertAndSaveImpl(private val currentContext: Context) : IConvertAndSave 
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
                 val file = File(storageDirectory, "${System.currentTimeMillis()}.png")
                 try {
+                    Thread.sleep(3000)
                     val stream: OutputStream = FileOutputStream(file)
                     val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                         ImageDecoder.decodeBitmap(
@@ -35,11 +36,10 @@ class ConvertAndSaveImpl(private val currentContext: Context) : IConvertAndSave 
                     stream.flush()
                     stream.close()
                     Log.d("@@@", Thread.currentThread().name)
-                    emmiter.onComplete()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    emmiter.onError(e)
                 }
+                emmiter.onComplete()
             }
         }
     }

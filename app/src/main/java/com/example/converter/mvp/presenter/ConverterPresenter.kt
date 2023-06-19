@@ -8,7 +8,6 @@ import com.example.converter.utils.subscribeByDefault
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
-import java.util.concurrent.TimeUnit
 
 class ConverterPresenter(
     private val router: Router,
@@ -16,7 +15,7 @@ class ConverterPresenter(
     private val imagePicker: ImagePickerImpl
 ) : MvpPresenter<ConverterView>() {
 
-    private val bag = CompositeDisposable()
+    private var bag = CompositeDisposable()
 
     var uri: String? = null
 
@@ -26,16 +25,18 @@ class ConverterPresenter(
 
     fun convertAndSave() {
         viewState.showLoading()
+        viewState.showCancelBtn()
         convertAndSave.convertToPngRx(uri)
-            .delay(3, TimeUnit.SECONDS)
             .subscribeByDefault()
             .subscribe(
                 {
                     viewState.hideLoading()
+                    viewState.hideCancelBtn()
                     viewState.makeToastSuccess()
                 },
                 {
                     viewState.makeToastError(it)
+                    viewState.hideCancelBtn()
                     viewState.hideLoading()
                 }
             ).disposeBy(bag)
@@ -52,6 +53,14 @@ class ConverterPresenter(
                     viewState.makeToastError(it)
                 })
             .disposeBy(bag)
+    }
+
+    fun cancelConverting() {
+        bag.dispose()
+        bag = CompositeDisposable()
+        viewState.hideCancelBtn()
+        viewState.hideLoading()
+        viewState.makeToastCancel()
     }
 
     override fun onDestroy() {

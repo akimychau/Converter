@@ -14,4 +14,7 @@ interface ConverterView : MvpView {
     fun makeToastSuccess()
     fun makeToastError(error: Throwable)
     fun makeToastGallery()
+    fun makeToastCancel()
+    fun showCancelBtn()
+    fun hideCancelBtn()
 }

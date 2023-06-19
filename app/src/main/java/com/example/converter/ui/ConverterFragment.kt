@@ -67,6 +67,10 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
         viewBinding.btn2.setOnClickListener {
             presenter.convertAndSave()
         }
+
+        viewBinding.btn3.setOnClickListener {
+            presenter.cancelConverting()
+        }
     }
 
     override fun onDestroyView() {
@@ -126,5 +130,17 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
 
     override fun makeToastGallery() {
         Toast.makeText(context, "Выберите картинку", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun makeToastCancel() {
+        Toast.makeText(context, "Отмена", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showCancelBtn() {
+        viewBinding.btn3.visibility = View.VISIBLE
+    }
+
+    override fun hideCancelBtn() {
+        viewBinding.btn3.visibility = View.GONE
     }
 }

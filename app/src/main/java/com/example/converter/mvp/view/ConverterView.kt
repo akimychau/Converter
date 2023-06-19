@@ -12,6 +12,6 @@ interface ConverterView : MvpView {
     fun showLoading()
     fun hideLoading()
     fun makeToastSuccess(pack: String)
-    fun makeToastError()
-    fun makeToastGallery(pack: String)
+    fun makeToastError(error: Throwable)
+    fun makeToastGallery()
 }

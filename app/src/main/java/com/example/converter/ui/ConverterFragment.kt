@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import coil.load
 import com.example.converter.App
 import com.example.converter.databinding.FragmentConverterBinding
+import com.example.converter.mvp.model.ConvertAndSaveImpl
 import com.example.converter.mvp.model.ImagePickerImpl
 import com.example.converter.mvp.presenter.ConverterPresenter
 import com.example.converter.mvp.view.ConverterView
@@ -24,6 +25,7 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
 
     private val presenter: ConverterPresenter by moxyPresenter {
         ConverterPresenter(App.instance.router,
+            ConvertAndSaveImpl(requireActivity()),
             ImagePickerImpl(requireActivity().activityResultRegistry, { granted ->
                 when {
                     granted -> {
@@ -40,6 +42,7 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
                 }
             }) { imageUri ->
                 viewBinding.img.load(imageUri)
+                presenter.uri = imageUri.toString()
             })
     }
 
@@ -59,6 +62,10 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
 
         viewBinding.btn.setOnClickListener {
             presenter.requestPermission()
+        }
+
+        viewBinding.btn2.setOnClickListener {
+            presenter.convertAndSave()
         }
     }
 
@@ -102,15 +109,15 @@ class ConverterFragment : MvpAppCompatFragment(), ConverterView, OnBackPressedLi
     }
 
     override fun showLoading() {
-        TODO("Not yet implemented")
+        viewBinding.progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        TODO("Not yet implemented")
+        viewBinding.progressBar.visibility = View.GONE
     }
 
-    override fun makeToastSuccess(pack: String) {
-        TODO("Not yet implemented")
+    override fun makeToastSuccess() {
+        Toast.makeText(context, "Картинка формата PNG сохранена", Toast.LENGTH_SHORT).show()
     }
 
     override fun makeToastError(error: Throwable) {

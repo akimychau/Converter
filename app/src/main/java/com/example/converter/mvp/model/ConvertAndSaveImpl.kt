@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.core.net.toUri
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -42,5 +43,5 @@ class ConvertAndSaveImpl(private val currentContext: Context) : IConvertAndSave 
                 emmiter.onComplete()
             }
         }
-    }
+    }.subscribeOn(Schedulers.io())
 }

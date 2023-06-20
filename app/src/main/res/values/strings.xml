@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Converter</string>
+    <string name="ask_for_permission">Если не разрешить доступ при следующем запросе, то разрешить его можно будет в любой момент в настройках телефона.\nХотите разрешить сейчас?</string>
+    <string name="title_permission">Доступ к галерее</string>
+    <string name="title_for_closed_permission">Доступ к галерее закрыт</string>
+    <string name="closed_permission">Чтобы открыть галерею разрешите доступ в настройках телефона</string>
 </resources>
